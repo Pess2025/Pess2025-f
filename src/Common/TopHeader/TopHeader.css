@@ -1,0 +1,33 @@
+/*
+    파일명 : TopHeader.css
+    설명 : pess의 공통 컴포넌트인 윗부분 로고에 대한 스타일 시트입니다.
+    작성자 : 정여진
+    작성일 : 2025.05.18.
+*/
+.top-header {
+    display: flex;
+    align-items: center;
+    padding: 12px 24px;
+    border-bottom: 1px solid #e0e0e0;
+    background-color: white;
+    font-family: 'Pretendard', sans-serif;
+}
+
+.logo {
+    width: 40px;
+    height: auto;
+    margin-left:1%;
+}
+
+.title {
+    margin-left:1%;
+    font-size: 20px;
+    color: #1f2d3d;
+}
+
+.subtitle {
+    font-weight: 400;
+    color: #888;
+    font-size: 14px;
+    margin-left: 8px;
+}
