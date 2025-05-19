@@ -1,0 +1,192 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css');
+
+.container {
+  font-family: 'Pretendard Variable', sans-serif;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.body {
+  display: flex;
+  flex: 1;
+}
+
+.sidebar {
+  width: 260px;
+  background-color: #fff;
+  padding: 30px 20px;
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.05);
+}
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.steps li {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 80px
+}
+
+.steps li:first-child {
+    margin-bottom: 30px; /* 1번만 줄임 */
+}
+
+.stepRow {
+    display: flex;
+    align-items: flex-start;
+  }
+
+.stepItem {
+    display: flex;
+    gap: 12px;
+}
+
+.stepItem span {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    background-color: #ccc;
+    border-radius: 50%;
+    color: white;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/*마지막 li를 제외한 모든 li 아래에 ::after로 세로 선 생성 */
+.steps li:not(:last-child) span::after {
+    content: '';
+    position: absolute;
+    top: 30px; 
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 80px;
+    background-color: #4A86FF;
+}
+  
+.text {
+font-size: 14px;
+line-height: 1.5;
+}
+
+.steps li .text {
+margin-top: 1px;
+}
+
+.steps li.active span {
+    background-color: #4A86FF;
+  }
+
+.steps li ul {
+  margin: 5px 0 0 0;
+  padding: 0;
+  list-style: none; 
+  color: #999;
+}
+
+.subList {
+    list-style: none;        /* ● 제거 */
+    padding: 0;
+    margin: 0;
+  }
+  
+.subList li {
+    margin: 0;
+    padding: 0;
+}
+
+.active_mini {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    font-weight: bold;
+    color: #363636;
+    padding-left: 0;     
+    margin-left: 0;
+  }
+
+.active span {
+  background-color: #4A86FF;
+}
+
+.active {
+  color: #363636;
+  font-weight: bold;
+}
+
+.main {
+  flex: 1;
+  background: #f8fafd;
+  padding: 48px;
+}
+
+.uploadBox {
+  background-color: white;
+  border: 1px dashed #ccc;
+  border-radius: 12px;
+  padding: 32px;
+}
+
+.uploadTitle {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.uploadArea {
+  border: 2px dashed #ccc;
+  padding: 60px;
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  background-color: #fff;
+}
+
+.uploadIcon {
+  width: 40px;
+  height: 40px;
+  margin-top: 12px;
+}
+
+.fileName {
+  color: #333;
+  font-size: 14px;
+}
+
+.inputHidden {
+  display: none;
+}
+
+.buttons {
+  margin-top: 24px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.primary {
+  background-color: #4A86FF;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.outlined {
+  border: 1px solid #4A86FF;
+  color: #4A86FF;
+  background: transparent;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
