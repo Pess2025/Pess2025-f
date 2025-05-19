@@ -3,9 +3,11 @@ import './App.css';
 import TopHeader from "./Common/TopHeader/TopHeader";
 import Decode from './Pages/Decode/decode.jsx';
 import Main from "./Pages/Main/Main";
+import Result from "./Pages/Result/Result";
 
 import {ROUTES} from "./Common/Routes";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 
 function App() {
   return (
@@ -14,6 +16,7 @@ function App() {
       <Routes>
         <Route path={ROUTES.MAIN} element={<Main/>}/>
         <Route path={ROUTES.DECODE} element={<Decode/>}/>
+        <Route path={ROUTES.RESULT} element={<Result/>}/>
       </Routes>
     </Router>
   );
