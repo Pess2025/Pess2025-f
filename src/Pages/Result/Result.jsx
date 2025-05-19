@@ -1,3 +1,14 @@
+/*
+ * 파일명: Result.jsx
+ * 설명: 복호화 결과 및 파일 무결성/전자서명 검증 결과 화면
+ * 작성자: 정여진
+ * 작성일: 2025.05.19
+ * 주요기능:
+ *   - 복호화 결과 텍스트 및 검증 정보 표시
+ *   - 이미지 기반 검색창 UI 구성 (search-bar.png + search-icon.png)
+ *   - 검색창 클릭 시 input에 포커스 적용
+ */
+
 import React, { useRef } from 'react';
 import styles from './Result.module.css';
 import searchInput from './assets/search-bar.png';

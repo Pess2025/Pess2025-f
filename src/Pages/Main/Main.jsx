@@ -5,18 +5,30 @@
 * 작성일 : 2025.05.18.
 */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import './Main.css';
 import numberIcon from './number_icon.png';
+import api from '../../Common/api.js';
 
 const Main = () => {
     const navigate = useNavigate();
     const [showFeatures, setShowFeatures] = useState(false);
-
+    const [message, setMessage] = useState('');
     const toggleFeatures = () => {
         setShowFeatures(prev => !prev);
     };
+
+    useEffect(() => {
+        api.get('/hello')
+            .then(res => {
+                console.log('Spring 응답:', res.data);
+                setMessage(res.data);
+            })
+            .catch(err => {
+                console.error('API 호출 실패:', err);
+            });
+    }, []);
 
     return (
         <div className="main-wrapper">
