@@ -25,21 +25,17 @@ export default function Decode() {
       <div className={styles.body}>
         <aside className={styles.sidebar}>
           <ul className={styles.steps}>
-            <div className = {styles.onrBlock}>
-                <li className={styles.active}>
-                    <div className={styles.stepRow}>
-                    <div className={styles.stepItem}>
-                        <span>1</span> 
-                        <div className={styles.text}>
-                            암호화 된 파일 업로드
-                            <ul>
-                                <li className={styles.active_mini}>파일 업로드</li>
-                            </ul>
-                        </div>
+            <li className={styles.active}>
+                <div className={styles.stepItem}>
+                    <span>1</span> 
+                    <div className={styles.text}>
+                        암호화 된 파일 업로드
+                        <ul>
+                            <li className={styles.active_mini}>·  파일 업로드</li>
+                        </ul>
                     </div>
-                    </div>
-                </li>
-            </div>
+                </div>
+            </li>
             <li>
                 <div className={styles.stepRow}>
                 <div className={styles.stepItem}>
