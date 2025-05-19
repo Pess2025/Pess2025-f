@@ -20,6 +20,8 @@
 }
 
 .steps {
+  
+  /*
   list-style: none;
   padding: 0;
   font-size: 14px;
@@ -27,28 +29,76 @@
   flex-direction: column;
   gap: 20px;
   color: #444;
+  */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 24px;
+  display: flex;
+  flex-direction: column;
 }
 
 .steps li {
-  position: relative;
-  padding-left: 28px;
-  line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 80px
 }
 
-.steps li span {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 20px;
-  height: 20px;
-  background-color: #ccc;
-  border-radius: 50%;
-  color: white;
-  font-size: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.stepRow {
+    display: flex;
+    align-items: flex-start;
+  }
+
+.stepItem {
+    display: flex;
+    
+    /*
+    align-items: center;
+    align-items: flex-start;
+    position: relative;
+    */
+    
+    gap: 12px;
 }
+
+.stepItem span {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    background-color: #ccc;
+    border-radius: 50%;
+    color: white;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/*세로선 추가: 마지막 li를 제외한 모든 li의 span에 ::after로 선을 그림 */
+.steps li:not(:last-child) span::after {
+    content: '';
+    position: absolute;
+    top: 30px; 
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 80px;
+    background-color: #4A86FF;
+}
+  
+/* 텍스트 */
+.text {
+font-size: 14px;
+line-height: 1.5;
+}
+
+.steps li .text {
+margin-top: 1px;
+}
+
+.steps li.active span {
+    background-color: #4A86FF;
+  }
 
 .steps li ul {
   margin-top: 5px;
@@ -57,15 +107,24 @@
   color: #999;
 }
 
+.steps li ul li.active_mini {
+    color: #363636 !important;
+    font-weight: bold;
+  }
+
 .active span {
-  background-color: #1248A4;
+  background-color: #4A86FF;
 }
 
 .active {
-  color: #1248A4;
+  color: #363636;
   font-weight: bold;
 }
 
+.active_mini {
+    color: #363636;
+    font-weight: bold;
+}
 .main {
   flex: 1;
   background: #f8fafd;
@@ -117,7 +176,7 @@
 }
 
 .primary {
-  background-color: #1248A4;
+  background-color: #4A86FF;
   color: white;
   border: none;
   padding: 8px 16px;
@@ -126,8 +185,8 @@
 }
 
 .outlined {
-  border: 1px solid #1248A4;
-  color: #1248A4;
+  border: 1px solid #4A86FF;
+  color: #4A86FF;
   background: transparent;
   padding: 8px 16px;
   border-radius: 6px;
