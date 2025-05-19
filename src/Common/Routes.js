@@ -5,5 +5,5 @@
 export const ROUTES = {
     MAIN:'/',
     DECODE: '/decode',
-
+    RESULT: '/result'
 }
