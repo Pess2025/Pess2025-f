@@ -28,10 +28,10 @@ export default function Decode() {
             <li className={styles.active}>
                 <div className={styles.stepItem}>
                     <span>1</span> 
-                    <div className={styles.text}>
-                        암호화 된 파일 업로드
-                        <ul>
-                            <li className={styles.active_mini}>·  파일 업로드</li>
+                    <div className={styles.textBlock}>
+                        <div className={styles.text}>암호화 된 파일 업로드</div>
+                        <ul className={styles.subList}>
+                            <li className={styles.active_mini}>· 파일 업로드</li>
                         </ul>
                     </div>
                 </div>
