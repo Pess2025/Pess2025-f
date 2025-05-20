@@ -1,6 +1,8 @@
 import React, { useState, useRef } from 'react';
 import styles from './DecodeReady.module.css';
 import uploadIcon from './assets/upload_icon.png';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../Common/Routes';
 
 export default function DecodeReady() {
   const [files, setFiles] = useState([]);
@@ -11,6 +13,8 @@ export default function DecodeReady() {
     const droppedFiles = Array.from(e.dataTransfer.files).slice(0, 3);
     setFiles(droppedFiles);
   };
+
+  const navigate = useNavigate();
 
   const handleDragOver = (e) => e.preventDefault();
 
@@ -97,7 +101,7 @@ export default function DecodeReady() {
             </div>
           </div>
           <div className={styles.buttons}>
-            <button className={styles.primary}>완료</button>
+            <button className={styles.primary} onClick={() => navigate(ROUTES.DECODE_DO)}>완료</button>
             <button className={styles.outlined} onClick={() => setFiles([])}>취소</button>
           </div>
         </main>
