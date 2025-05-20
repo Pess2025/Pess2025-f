@@ -34,7 +34,7 @@
     margin-bottom: 80px;
 }
 
-.steps li:nth-child(4) {
+.steps li:nth-child(5) {
     margin-bottom: 70px; 
 }
 
@@ -79,7 +79,7 @@
     background-color: #999;
 }
 
-.steps li:nth-child(4) span::after {
+.steps li:nth-child(5) span::after {
     background-color: #4A86FF;
 }
   
@@ -196,7 +196,6 @@ margin-top: 1px;
 }
 
 
-
 .downloadLink {
     text-align: right;
     margin-top: 16px;
@@ -208,18 +207,15 @@ margin-top: 1px;
     font-weight: bold;
 }
 
-.buttons {
-    margin-top: 24px;
+.primary{
+    width: 120px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     gap: 8px;
-}
-
-.primary_page {
-background-color: #4A86FF;
-color: white;
-border: none;
-padding: 8px 16px;
-border-radius: 6px;
-cursor: pointer;
+    border: 1px solid #4A86FF;
+    color: #4A86FF;
+    background: transparent;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
 }

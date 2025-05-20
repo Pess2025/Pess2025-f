@@ -5,5 +5,8 @@
 export const ROUTES = {
     MAIN:'/',
     DECODE: '/decode',
-    RESULT: '/result'
+    RESULT: '/result',
+    SEARCH: '/search',
+    DECODE_READY: '/decode/ready',
+    DECODE_DO: '/decode/do'
 }
