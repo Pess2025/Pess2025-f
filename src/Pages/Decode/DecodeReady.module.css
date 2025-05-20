@@ -84,8 +84,10 @@
 }
   
 .text {
-font-size: 14px;
-line-height: 1.5;
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: bold;
+  color: #363636;
 }
 
 
