@@ -92,7 +92,7 @@ export default function DecodeDo() {
           <div className={styles.block}>
             <div className={styles.blockHeader}>대칭키로 텍스트 파일 복호화</div>
             <div className={styles.blockBody}>
-              <p>{textDecryptionDone ? '텍스트 복호화가 완료 되었습니다.' : '텍스트 파일 복호화 중 입니다.'}</p>
+              <p>{textDecryptionDone ? '텍스트 파일 복호화가 완료 되었습니다.' : '텍스트 파일 복호화 중 입니다.'}</p>
               <img src={textDecryptionDone ? checkImg : loadingImg} alt="상태 이미지" className={styles.statusIcon} />
             </div>
           </div>
