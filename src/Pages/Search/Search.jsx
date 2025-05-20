@@ -1,14 +1,10 @@
 import React, { useRef } from 'react';
-import styles from './Result.module.css';
+import styles from './Search.module.css';
 import searchInput from './assets/search-bar.png';
 import searchIcon from './assets/search-icon.png';
 
-import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../Common/Routes';
-
-export default function Result() {
+export default function Search() {
     const inputRef = useRef();
-    const navigate = useNavigate();
 
     return (
         <div className={styles.container}>
@@ -40,23 +36,24 @@ export default function Result() {
                             </div>
                         </div>
                     </li>
-                    <li className={styles.active}>
+                    <li className={styles.actived}>
+                    <div className={styles.stepRow}>
                         <div className={styles.stepItem}>
                             <span>4</span>
-                            <div className={styles.textBlock}>
                                 <div className={styles.text}>파일 무결성/전자서명 검증</div>
-                                <ul className={styles.subList}>
-                                    <li className={styles.active_mini}>· 파일 무결성/전자서명 검증 결과</li>
-                                </ul>
+                               
                             </div>
                         </div>
                     </li>
-                    <li>
-                        <div className={styles.stepRow}>
+                    <li className={styles.active}>
                         <div className={styles.stepItem}>
                             <span>5</span>
-                            <div className={styles.text}>키 검색 및 원본 다운로드</div>
-                        </div>
+                            <div className={styles.textBlock}>
+                                <div className={styles.text}>키 검색 및 원본 다운로드</div>
+                                <ul className={styles.subList}>
+                                        <li className={styles.active_mini}>· 키 검색 및 원본 파일 다운로드</li>
+                                </ul>
+                            </div>
                         </div>
                     </li>
                 </ul>
@@ -78,7 +75,7 @@ export default function Result() {
 
                     <div className={styles.uploadBox}>
                         <p style={{ fontWeight: 600, fontSize: '16px', marginBottom: '12px' }}>
-                            복호화 및 무결성 검증 결과입니다.
+                            원본 파일 다운로드
                         </p>
                         <div
                             style={{
@@ -88,25 +85,19 @@ export default function Result() {
                                 backgroundColor: '#fafafa',
                                 display: 'flex',
                                 flexDirection: 'column',
-                                gap: '12px'
+                                gap: '12px',
+                                justifyContent: 'center', 
+                                alignItems: 'center'
                             }}
                         >
-                            <p><strong>📄 파일명:</strong> secret.txt</p>
-                            <p><strong>⏱ 검사 시간:</strong> 2025-05-16 10:12:05</p>
-                            <p><strong>✅ 파일 무결성:</strong> 일치</p>
-                            <p><strong>📝 전자서명:</strong> 유효함</p>
-                            <div style={{ marginTop: '16px', textAlign: 'center' }}>
-                                <a
-                                    href="/download/original-file"
-                                    className={styles.primary}
-                                    style={{ textDecoration: 'none' }}
-                                >
-                                    원본 파일 다운로드
-                                </a>
-                            </div>
-                        </div>
-                        <div className={styles.buttons}>
-                                <button className={styles.primary_page} onClick={() => navigate(ROUTES.SEARCH)}>다음</button>
+                            
+                            <a
+                                href="/download/original-file"
+                                className={styles.primary}
+                                style={{ textDecoration: 'none' }}
+                            >
+                                다운로드
+                            </a>
                         </div>
                     </div>
                 </main>
