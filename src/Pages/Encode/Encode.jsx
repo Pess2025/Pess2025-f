@@ -139,7 +139,7 @@ export default function Encode() {
             </div>
           </div>
           <div className={styles.buttons}>
-            <button className={styles.primary} onClick={() => navigate(ROUTES.DECODE_READY)}>완료</button>
+            <button className={styles.primary} onClick={() => navigate(ROUTES.ENCODE_READY)}>완료</button>
             <button className={styles.outlined} onClick={() => {setPublicKeyFile(null);;  if (publicInputRef.current) {publicInputRef.current.value = '';}}}>취소</button>
           </div>
         </main>
