@@ -12,6 +12,7 @@ export const ROUTES = {
     ENCODE: '/encode',
     ENCODE_READY: '/encode/ready',
     ENCODE_DO: '/encode/do',
+    ENCODE_DOWNLOAD: '/encode/download',
     ENCODE_MAKE_PRIVATE: '/encode/make/private',
     ENCODE_MAKE_PUBLIC: '/encode/make/public'
 }

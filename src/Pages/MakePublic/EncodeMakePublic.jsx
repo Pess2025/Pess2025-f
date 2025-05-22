@@ -75,7 +75,7 @@ export default function EncodeMakePublic() {
                 </div>
             </div>
             <div className={styles.buttons}>
-              <button className={styles.primary} onClick={() => navigate(ROUTES.ENCODE_UPLOAD)}>다음</button>
+              <button className={styles.primary} onClick={() => navigate(ROUTES.ENCODE_READY)}>다음</button>
             </div>
         </main>
       </div>

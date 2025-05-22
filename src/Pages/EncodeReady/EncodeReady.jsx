@@ -4,7 +4,7 @@ import uploadIcon from './assets/upload_icon.png';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../Common/Routes';
 
-export default function EncodeDo() {
+export default function EncodeReady() {
 
   const [textFile, setTextFile] = useState(null);
 
@@ -12,7 +12,7 @@ export default function EncodeDo() {
 
   const handleTextFileChange = (e) => {
     const file = e.target.files[0];
-    if (file) setPublicKeyFile(file.name);
+    if (file) setTextFile(file.name);
   };
 
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ export default function EncodeDo() {
   const handleTextDrop = (e) => {
     e.preventDefault();
     const file = e.dataTransfer.files[0];
-    if (file) setPublicKeyFile(file.name);
+    if (file) setTextFile(file.name);
   };
 
   const handleDragOver = (e) => e.preventDefault();
@@ -31,26 +31,25 @@ export default function EncodeDo() {
   return (
     <div className={styles.container}>
       <div className={styles.body}>
-        <aside className={styles.sidebar}>
+      <aside className={styles.sidebar}>
           <ul className={styles.steps}>
-            <li>
+            <li className={styles.actived}>
               <div className={styles.stepRow}>
                 <div className={styles.stepItem}>
                     <span>1</span> 
-                    <div className={styles.textBlock}>
-                        <div className={styles.text}>암호화 준비</div> 
+                        <div className={styles.text}>암호화 준비</div>
                     </div>
                 </div>
-              </div>
             </li>
-            <li className={styles.actived}>
+            <li className={styles.active}>
                 <div className={styles.stepItem}>
                     <span>2</span>
-                    <div className={styles.text}>비밀번호 파일 업로드</div>
-                    <ul className={styles.subList}>
-                            <li className={styles.active_mini}>· 비밀번호 목록의 파일 업로드</li>
+                    <div className={styles.textBlock}>
+                      <div className={styles.text}>비밀번호 파일 업로드</div>
+                      <ul className={styles.subList}>
+                          <li className={styles.active_mini}>· 비밀번호 목록의 파일 업로드</li>
                       </ul>
-                
+                    </div>
                 </div>
             </li>
             <li>
@@ -81,7 +80,7 @@ export default function EncodeDo() {
             onClick={() => textDropRef.current.querySelector('input').click()}
             ref={textDropRef}
           >
-            <p className={styles.uploadTitle}>공개 키 파일 업로드</p>
+            <p className={styles.uploadTitle}>비밀번호가 작성 된 파일 업로드</p>
             <div className={styles.uploadArea}>
               {textFile ? (
                 <p className={styles.fileName}>선택된 파일: {textFile}</p>

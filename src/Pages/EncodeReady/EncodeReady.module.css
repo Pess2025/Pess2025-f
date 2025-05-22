@@ -71,8 +71,8 @@
     background-color: #999;
 }
 
-/*수행 완료 된 세로선 색 변경 li:nth-child(-n+1)는 li:first-child와 동일, 처음 요소에 해당*/
-.steps li:nth-child(-n+1) span::after {
+
+.steps li:nth-child(2) span::after {
   background-color: #4A86FF;
 }
   
@@ -137,7 +137,7 @@ margin-top: 1px;
 .active {
   color: #363636;
   font-weight: bold;
-  /* margin-bottom: 30px; */
+  margin-bottom: 40px;
 }
 
 .steps li.actived span {

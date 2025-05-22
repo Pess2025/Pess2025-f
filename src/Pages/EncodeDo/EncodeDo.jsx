@@ -13,10 +13,8 @@ export default function EncodeDo() {
   // 테스트용 타이머 -> 시간에 따라 상태 보여줌 / 백엔드 개발 후에는 타이머 말고 값 리턴 확인하고 바뀌도록 변경 해야함
   React.useEffect(() => {
     const symTimer = setTimeout(() => setSymmetricDone(true), 2000);
-    const textTimer = setTimeout(() => setTextDecryptionDone(true), 4000);
     return () => {
       clearTimeout(symTimer);
-      clearTimeout(textTimer);
     };
   }, []);
 
@@ -24,53 +22,44 @@ export default function EncodeDo() {
     <div className={styles.container}>
       <div className={styles.body}>
         <aside className={styles.sidebar}>
-          <ul className={styles.steps}>
-            <li className={styles.actived}>
-              <div className={styles.stepRow}>
-                <div className={styles.stepItem}>
-                    <span>1</span> 
-                        <div className={styles.text}>암호화 된 파일 업로드</div>
-                    </div>
-                </div>
-            </li>
-            <li className={styles.actived}>
+            <ul className={styles.steps}>
+                <li className={styles.actived}>
                 <div className={styles.stepRow}>
-                <div className={styles.stepItem}>
-                    <span>2</span>
-                    <div className={styles.text}>복호화 준비</div>
+                    <div className={styles.stepItem}>
+                        <span>1</span> 
+                            <div className={styles.text}>암호화 준비</div>
+                        </div>
                     </div>
-                
-                </div>
-            </li>
-            <li className={styles.active}>
-                <div className={styles.stepItem}>
-                    <span>3</span>
-                    <div className={styles.textBlock}>
-                        <div className={styles.text}>복호화 수행</div>
-                        <ul className={styles.subList}>
-                                <li className={styles.active_mini}>· 대칭키 복호화</li>
-                                <li className={symmetricDone ? styles.active_mini : styles.active_already}>· 텍스트 파일 복호화</li>
-                        </ul>
+                </li>
+                <li className={styles.actived}>
+                    <div className={styles.stepRow}>
+                    <div className={styles.stepItem}>
+                        <span>2</span>
+                        <div className={styles.text}>비밀번호 파일 업로드</div>
+                        </div>
+                    
                     </div>
-                </div>
-            </li>
-            <li>
-                <div className={styles.stepRow}>
-                <div className={styles.stepItem}>
-                    <span>4</span>
-                    <div className={styles.text}>파일 무결성/전자서명 검증</div>
-                </div>
-                </div>
-            </li>
-            <li>
-                <div className={styles.stepRow}>
-                <div className={styles.stepItem}>
-                    <span>5</span>
-                    <div className={styles.text}>키 검색 및 원본 다운로드</div>
-                </div>
-                </div>
-            </li>
-          </ul>
+                </li>
+                <li className={styles.active}>
+                    <div className={styles.stepItem}>
+                        <span>3</span>
+                        <div className={styles.textBlock}>
+                            <div className={styles.text}>해시 값 생성 및 전자서명 생성</div>
+                            <ul className={styles.subList}>
+                                    <li className={styles.active_mini}>· 파일 암호화</li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div className={styles.stepRow}>
+                    <div className={styles.stepItem}>
+                        <span>4</span>
+                        <div className={styles.text}>전자봉투 및 암호문 다운로드</div>
+                    </div>
+                    </div>
+                </li>
+            </ul>
         </aside>
 
         <main className={styles.main}>
