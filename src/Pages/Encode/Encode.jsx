@@ -22,7 +22,6 @@ export default function Encode() {
     if (file) setPublicKeyFile(file.name);
   };
 
-
   const navigate = useNavigate();
 
   const privateDropRef = useRef();
