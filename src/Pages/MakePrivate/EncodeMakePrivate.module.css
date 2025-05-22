@@ -175,23 +175,47 @@ margin-top: 12px;
 }
 
 .statusIcon {
-width: 32px;
-height: 32px;
+  width: 32px;
+  height: 32px;
 }
 
 .buttons {
-    margin-top: 24px;
-    display: flex;
-    justify-content: flex-end;
-    gap: 8px;
+  margin-top: 24px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
 }
   
 .primary {
-background-color: #4A86FF;
-color: white;
-border: none;
-padding: 8px 16px;
-border-radius: 6px;
-cursor: pointer;
+  background-color: #4A86FF;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.outlined {
+  border: 1px solid #4A86FF;
+  color: #4A86FF;
+  background: transparent;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.textContainer {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: end;
+}
+
+.downloadText {
+  text-align: right;
+  width: 100%;
+  font-size: 16px;
+  font-weight: bold;
+  color: #e34a4a;
 }
   

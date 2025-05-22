@@ -75,7 +75,20 @@ export default function EncodeMakePrivate() {
                 </div>
             </div>
             <div className={styles.buttons}>
+              {symmetricDone && (
+                  <a
+                  href="/download/privateKey-file"
+                  className={styles.outlined}
+                  style={{ textDecoration: 'none' }}>
+                  개인 키 파일 다운로드
+                  </a>
+                )}
               <button className={styles.primary} onClick={() => navigate(ROUTES.ENCODE_MAKE_PUBLIC)}>다음</button>
+            </div>
+            <div className='textContainer'>
+              {symmetricDone && (
+                <p className={styles.downloadText}>개인 키는 다운로드 해서 직접 보관!</p>
+              )}
             </div>
         </main>
       </div>
