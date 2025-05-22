@@ -92,7 +92,7 @@ export default function Encode() {
             <h2>암호화</h2>
             <div className={styles.noKeyGroup}>
               <p className={styles.noKeyText}>키가 없다면? →</p>
-              <button className={styles.keyButton}>새로운 키 생성하기</button>
+              <button className={styles.keyButton} onClick={() => navigate(ROUTES.ENCODE_MAKE_PRIVATE)}>새로운 키 생성하기</button>
             </div>
           </div>
           <div

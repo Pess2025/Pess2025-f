@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import styles from './DecodeDo.module.css';
 import checkImg from './assets/check.png';
 import loadingImg from './assets/loading.png';

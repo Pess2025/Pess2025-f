@@ -9,5 +9,7 @@ export const ROUTES = {
     SEARCH: '/search',
     DECODE_READY: '/decode/ready',
     DECODE_DO: '/decode/do',
-    ENCODE: '/encode'
+    ENCODE: '/encode',
+    ENCODE_MAKE_PRIVATE: '/encode/make/private',
+    ENCODE_MAKE_PUBLIC: '/encode/make/public'
 }
