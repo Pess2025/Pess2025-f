@@ -8,5 +8,6 @@ export const ROUTES = {
     RESULT: '/result',
     SEARCH: '/search',
     DECODE_READY: '/decode/ready',
-    DECODE_DO: '/decode/do'
+    DECODE_DO: '/decode/do',
+    ENCODE: '/encode'
 }

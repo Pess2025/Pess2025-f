@@ -26,7 +26,7 @@
     line-height: 1.4;
 }
 
-{/* 버튼 */}
+/* 버튼 */
 .button-group {
     margin: 20px 0;
 }
@@ -52,7 +52,7 @@
     cursor: pointer;
 }
 
-{/* 본문 */}
+/* 본문 */
 .feature-section {
     max-height: 0;
     overflow: hidden;

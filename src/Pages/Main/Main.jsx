@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import './Main.css';
 import numberIcon from './number_icon.png';
 
+
 const Main = () => {
     const navigate = useNavigate();
     const [showFeatures, setShowFeatures] = useState(false);
@@ -32,7 +33,8 @@ const Main = () => {
 
                 <div className="button-group">
                     <button className="intro-btn" onClick={toggleFeatures}>핵심 기능 소개</button>
-                    <button className="start-btn" onClick={() => navigate('/decode')}>암호화 및 복호화 시작하기</button>
+                    <button className="start-btn" onClick={() => navigate('/encode')}>암호화 및 복호화 시작하기</button>
+                    <button className="start-btn" onClick={() => navigate('/decode')}>복호화</button> {/* 임시 테스트용 */}
                 </div>
 
                 <div className={`feature-section ${showFeatures ? 'open' : ''}`}>
