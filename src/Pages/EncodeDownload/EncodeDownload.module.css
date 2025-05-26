@@ -223,3 +223,22 @@ padding: 8px 16px;
 border-radius: 6px;
 cursor: pointer;
 }
+
+.primary {
+background-color: #4A86FF;
+color: white;
+border: none;
+padding: 8px 16px;
+border-radius: 6px;
+cursor: pointer;
+margin-right: 20px;
+}
+
+.outlined {
+border: 1px solid #4A86FF;
+color: #4A86FF;
+background: transparent;
+padding: 8px 16px;
+border-radius: 6px;
+cursor: pointer;
+}

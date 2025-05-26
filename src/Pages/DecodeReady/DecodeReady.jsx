@@ -40,10 +40,10 @@ export default function DecodeReady() {
                 <div className={styles.stepItem}>
                     <span>2</span>
                     <div className={styles.textBlock}>
-                    <div className={styles.text}>복호화 준비</div>
-                        <ul className={styles.subList}>
-                            <li className={styles.active_mini}>· 파일 업로드</li>
-                        </ul>
+                      <div className={styles.text}>복호화 준비</div>
+                      <ul className={styles.subList}>
+                          <li className={styles.active_mini}>· 파일 업로드</li>
+                      </ul>
                     </div>
                 </div>
             </li>

@@ -34,14 +34,14 @@
     margin-bottom: 80px
 }
 
-.steps li:first-child {
-    margin-bottom: 30px; /* 1번만 줄임 */
+.steps li:nth-child(3) {
+    margin-bottom: 40px; 
 }
 
 .stepRow {
     display: flex;
     align-items: flex-start;
-  }
+}
 
 .stepItem {
     display: flex;
@@ -79,21 +79,24 @@
     background-color: #999;
 }
 
-/*수행 완료 된 세로선 색 변경 li:nth-child(-n+1)는 li:first-child와 동일, 처음 요소에 해당*/
-.steps li:nth-child(-n+1) span::after {
-  background-color: #4A86FF;
+.steps li:nth-child(3) span::after {
+    background-color: #4A86FF;
 }
   
 .text {
-  font-size: 14px;
-  line-height: 1.5;
-  font-weight: bold;
-  color: #363636;
+    font-size: 14px;
+    line-height: 1.5;
+    font-weight: bold;
+    color: #363636;
 }
 
 
 .steps li .text {
 margin-top: 1px;
+}
+
+.steps li.actived span {
+  background-color: #00BA00;
 }
 
 .steps li.active span {
@@ -113,8 +116,9 @@ margin-top: 1px;
 }
   
 .subList li {
-    margin: 0;
-    padding: 0;
+  margin-top:2px;
+  margin-bottom: 8px;
+  padding: 0;
 }
 
 .active_mini {
@@ -125,7 +129,17 @@ margin-top: 1px;
     color: #363636;
     padding-left: 0;     
     margin-left: 0;
-  }
+}
+
+.active_already{
+    display: flex;
+    align-items: left;
+    font-size: 12px;
+    font-weight: normal;
+    color: #999;
+    padding-left: 0;     
+    margin-left: 0;
+}
 
 .active span {
   background-color: #4A86FF;
@@ -136,6 +150,7 @@ margin-top: 1px;
   font-weight: bold;
 }
 
+
 /*위는 다 사이드바 관련*/
 
 .main {
@@ -144,36 +159,18 @@ margin-top: 1px;
   padding: 48px;
 }
 
-.uploadBox_Envelope {
-  margin-top: 30px;
-  background-color: white;
-  border: 1px dashed #ccc;
-  border-radius: 12px;
-  padding: 32px;
-}
-
-.uploadBox_EncodeFile {
-  margin-top: 30px;
-  background-color: white;
-  border: 1px dashed #ccc;
-  border-radius: 12px;
-  padding: 32px;
-}
-
-
-.uploadTitle {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 16px;
-}
-
-.uploadArea {
-  border: 2px dashed #ccc;
-  padding: 60px;
-  border-radius: 12px;
-  text-align: center;
-  cursor: pointer;
-  background-color: #fff;
+.block {
+    background: white;
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 0 4px rgba(0,0,0,0.1);
+    margin-bottom: 24px;
+  }
+  
+.blockHeader {
+font-weight: 600;
+font-size: 14px;
+margin-bottom: 16px;
 }
 
 .uploadIcon {
@@ -182,13 +179,21 @@ margin-top: 1px;
   margin-top: 12px;
 }
 
-.fileName {
-  color: #333;
-  font-size: 14px;
+.blockBody {
+    text-align: center;
+    font-size: 14px;
 }
 
-.inputHidden {
-  display: none;
+.statusIcon {
+width: 32px;
+height: 32px;
+margin-top: 12px;
+}
+
+.arrow {
+text-align: center;
+font-size: 24px;
+margin: 8px 0;
 }
 
 .buttons {
@@ -207,11 +212,3 @@ margin-top: 1px;
   cursor: pointer;
 }
 
-.outlined {
-  border: 1px solid #4A86FF;
-  color: #4A86FF;
-  background: transparent;
-  padding: 8px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-}

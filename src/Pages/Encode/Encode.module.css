@@ -26,21 +26,13 @@
   gap: 24px;
   display: flex;
   flex-direction: column;
-}
-
-.steps li {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 80px
-}
-
-.steps li:first-child {
-    margin-bottom: 30px; /* 1번만 줄임 */
+  display: flex;
 }
 
 .stepRow {
     display: flex;
     align-items: flex-start;
+    margin-bottom: 80px
   }
 
 .stepItem {
@@ -113,7 +105,8 @@ margin-top: 1px;
 }
   
 .subList li {
-    margin: 0;
+    margin-top:2px;
+    margin-bottom: 8px;
     padding: 0;
 }
 
@@ -125,7 +118,17 @@ margin-top: 1px;
     color: #363636;
     padding-left: 0;     
     margin-left: 0;
-  }
+}
+
+.active_already{
+    display: flex;
+    align-items: left;
+    font-size: 12px;
+    font-weight: normal;
+    color: #999;
+    padding-left: 0;     
+    margin-left: 0;
+}
 
 .active span {
   background-color: #4A86FF;
@@ -134,6 +137,7 @@ margin-top: 1px;
 .active {
   color: #363636;
   font-weight: bold;
+  /* margin-bottom: 30px; */
 }
 
 /*위는 다 사이드바 관련*/
@@ -144,22 +148,50 @@ margin-top: 1px;
   padding: 48px;
 }
 
-.uploadBox_Envelope {
-  margin-top: 30px;
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.noKeyGroup{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.noKeyText {
+  margin: 0;
+  font-weight: bold;
+  font-size: 18px;
+  color: #4A86FF;
+}
+
+.keyButton{
+  background-color: #4A86FF;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.uploadBox_privateKey {
   background-color: white;
   border: 1px dashed #ccc;
   border-radius: 12px;
   padding: 32px;
 }
 
-.uploadBox_EncodeFile {
+.uploadBox_publicKey {
   margin-top: 30px;
   background-color: white;
   border: 1px dashed #ccc;
   border-radius: 12px;
   padding: 32px;
 }
-
 
 .uploadTitle {
   font-size: 16px;
@@ -192,7 +224,7 @@ margin-top: 1px;
 }
 
 .buttons {
-  margin-top: 24px;
+  margin-top: 10px;
   display: flex;
   justify-content: flex-end;
   gap: 8px;

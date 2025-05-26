@@ -34,14 +34,14 @@
     margin-bottom: 80px
 }
 
-.steps li:nth-child(3) {
-    margin-bottom: 50px; 
+.steps li:nth-child(2) {
+    margin-bottom: 70px; 
 }
 
 .stepRow {
     display: flex;
     align-items: flex-start;
-}
+  }
 
 .stepItem {
     display: flex;
@@ -79,15 +79,15 @@
     background-color: #999;
 }
 
-.steps li:nth-child(3) span::after {
+.steps li:nth-child(2) span::after {
     background-color: #4A86FF;
 }
   
 .text {
-    font-size: 14px;
-    line-height: 1.5;
-    font-weight: bold;
-    color: #363636;
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: bold;
+  color: #363636;
 }
 
 
@@ -104,7 +104,7 @@ margin-top: 1px;
   }
 
 .steps li ul {
-  margin: 5px 0 0 0;
+  margin: 13px 0 0 0;
   padding: 0;
   list-style: none; 
   color: #999;
@@ -128,17 +128,7 @@ margin-top: 1px;
     color: #363636;
     padding-left: 0;     
     margin-left: 0;
-}
-
-.active_already{
-    display: flex;
-    align-items: left;
-    font-size: 12px;
-    font-weight: normal;
-    color: #999;
-    padding-left: 0;     
-    margin-left: 0;
-}
+  }
 
 .active span {
   background-color: #4A86FF;
@@ -158,18 +148,26 @@ margin-top: 1px;
   padding: 48px;
 }
 
-.block {
-    background: white;
-    border-radius: 8px;
-    padding: 24px;
-    box-shadow: 0 0 4px rgba(0,0,0,0.1);
-    margin-bottom: 24px;
-  }
-  
-.blockHeader {
-font-weight: 600;
-font-size: 14px;
-margin-bottom: 16px;
+.uploadBox {
+  background-color: white;
+  border: 1px dashed #ccc;
+  border-radius: 12px;
+  padding: 32px;
+}
+
+.uploadTitle {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.uploadArea {
+  border: 2px dashed #ccc;
+  padding: 60px;
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  background-color: #fff;
 }
 
 .uploadIcon {
@@ -178,21 +176,19 @@ margin-bottom: 16px;
   margin-top: 12px;
 }
 
-.blockBody {
-    text-align: center;
-    font-size: 14px;
+.fileList{
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-.statusIcon {
-width: 32px;
-height: 32px;
-margin-top: 12px;
+.fileName {
+  color: #333;
+  font-size: 14px;
 }
 
-.arrow {
-text-align: center;
-font-size: 24px;
-margin: 8px 0;
+.inputHidden {
+  display: none;
 }
 
 .buttons {
@@ -211,3 +207,11 @@ margin: 8px 0;
   cursor: pointer;
 }
 
+.outlined {
+  border: 1px solid #4A86FF;
+  color: #4A86FF;
+  background: transparent;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
