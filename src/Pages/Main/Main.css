@@ -1,0 +1,119 @@
+/* LandingPage.css */
+.main-wrapper {
+    font-family: 'Pretendard', sans-serif;
+    background-color: #ffffff;
+    padding: 0;
+    margin: 0;
+}
+
+.main-content {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+
+.project-info-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 24px;
+    margin-right:4%;
+}
+
+.project-info {
+    font-size: 18px;
+    color: #333;
+    text-align: right;
+    line-height: 1.4;
+}
+
+/* 버튼 */
+.button-group {
+    margin: 20px 0;
+}
+
+.intro-btn {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    font-size: 14px;
+    border-radius: 6px;
+    margin-right: 12px;
+    cursor: pointer;
+}
+
+.start-btn {
+    background-color: transparent;
+    color: #2563eb;
+    border: 1px solid #2563eb;
+    padding: 10px 16px;
+    font-size: 14px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* 본문 */
+.feature-section {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.5s ease-in-out;
+}
+
+.feature-section.open {
+    max-height: 5000px; /**여기 높이가 잇어야함.*/
+    opacity: 1;
+    margin-top: 40px;
+}
+
+.feature-box {
+    padding:4%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 90%;
+    max-width: 800px;
+    gap: 32px;
+    margin: 0 auto;
+}
+
+.left-side {
+    flex: 1;
+}
+
+.icon-number-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.feature-number {
+    font-size: 40px; /* 숫자 키움 */
+    font-weight: 800;
+    color: #1e3a8a;
+    line-height: 1;
+}
+
+.number-icon {
+    width: 20px;
+    height: 20px;
+    margin-top: 4px;
+}
+
+.feature-title {
+    font-size: 18px;
+    font-weight: 500;
+    margin-top: 12px;
+    text-align: left;
+}
+
+.feature-placeholder {
+    width: 400px;  /* 박스 고정 사이즈 키움 */
+    height: 300px;
+    background-color: #f1f5f9;
+    border-radius: 10px;
+    padding: 16px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #333;
+}
