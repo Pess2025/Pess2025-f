@@ -26,7 +26,7 @@ export default function EncodeDo() {
         const array = new Uint8Array(16);
         window.crypto.getRandomValues(array);
         return array;
-    };
+    }
 
     const hashWithSalt = async (value, salt) => {
         const encoder = new TextEncoder();
@@ -40,55 +40,86 @@ export default function EncodeDo() {
     };
 
     const encryptWithAES = (plainText, keyBytes) => {
-        const keyStr = Array.from(keyBytes).map(b => String.fromCharCode(b)).join('');
-        return CryptoJS.AES.encrypt(plainText, keyStr).toString();
+        const key = CryptoJS.lib.WordArray.create(keyBytes);
+        return CryptoJS.AES.encrypt(plainText, key, {
+            mode: CryptoJS.mode.ECB,  // 필요하면 CBC 등으로 변경 가능
+            padding: CryptoJS.pad.Pkcs7
+        }).toString();
     };
 
     useEffect(() => {
         const runEncrypt = async () => {
             if (!passwordFile) {
                 alert("비밀번호 파일이 존재하지 않습니다.");
+                console.log("[runEncrypt] 비밀번호 파일이 존재하지 않습니다.");
                 return;
             }
 
             try {
+                console.log("[runEncrypt] 비밀번호 파일 읽기 시작");
                 const password = await readPasswordFromFile(passwordFile);
+                console.log("[runEncrypt] 비밀번호 파일 읽기 완료, password:", password);
 
                 // 1. 해시 + salt 처리
+                console.log("[runEncrypt] salt 생성 시작");
                 const salt = generateSalt();
+                console.log("[runEncrypt] salt 생성 완료, salt:", salt);
+
+                console.log("[runEncrypt] 비밀번호와 salt로 해시 계산 시작");
                 const hashed = await hashWithSalt(password, salt);
+                console.log("[runEncrypt] 해시 계산 완료, hashed:", hashed);
 
                 const hashBlob = new Blob([hashed], { type: "application/octet-stream" });
                 const hashForm = new FormData();
                 hashForm.append("hashFile", hashBlob, "hashed_password.txt");
 
+                console.log("[runEncrypt] 해시 파일 FormData 생성, 서버에 전송 시작");
                 await axios.post("/api/encrypt/save-hash", hashForm, {
                     headers: { "Content-Type": "multipart/form-data" }
                 });
+                console.log("[runEncrypt] 해시 파일 서버 전송 완료");
 
                 // 2. AES 대칭키로 암호화
+                console.log("[runEncrypt] AES 대칭키 생성 시작");
                 const aesKey = generateAesKey();
+                console.log("[runEncrypt] AES 대칭키 생성 완료, aesKey:", aesKey);
+
+                console.log("[runEncrypt] 비밀번호 AES 암호화 시작");
                 const encrypted = encryptWithAES(password, aesKey);
+                console.log("[runEncrypt] 비밀번호 AES 암호화 완료, encrypted:", encrypted);
 
                 const aesForm = new FormData();
                 aesForm.append("encryptedText", new Blob([encrypted], { type: "text/plain" }), "encrypted.txt");
 
+                // 3. 공개키 raw bytes 받아서 AES 키 암호화
+                console.log("[runEncrypt] AES 키 공개키로 암호화 시작");
                 const encryptedAesKeyBytes = await encryptAesKeyWithPublicKey(aesKey);
+                console.log("[runEncrypt] AES 키 공개키로 암호화 완료, encryptedAesKeyBytes:", encryptedAesKeyBytes);
+                console.log("[runEncrypt] encryptedAesKeyBytes length:", encryptedAesKeyBytes.length);
+
                 aesForm.append("encryptedAesKey", new Blob([encryptedAesKeyBytes], { type: "application/octet-stream" }), "aes_key_encrypted.bin");
+
+                console.log("[runEncrypt] 암호문 및 암호화된 AES 키 서버 전송 시작");
                 await axios.post("/api/encrypt/envelope", aesForm, {
                     headers: { "Content-Type": "multipart/form-data" }
                 });
+                console.log("[runEncrypt] 암호문 및 암호화된 AES 키 서버 전송 완료");
 
+                // 4. 전자서명 생성 요청
                 try {
+                    console.log("[runEncrypt] 전자서명 생성 요청 시작");
                     const signRes = await axios.post("/api/encrypt/sign");
+                    console.log("[runEncrypt] 전자서명 생성 완료", signRes.data);
 
                     setSymmetricDone(true);
                 } catch (signErr) {
+                    console.error("[runEncrypt] 전자서명 생성 중 오류 발생:", signErr);
                     alert("전자서명 생성 중 오류가 발생했습니다.");
                     return;
                 }
 
-                // 3. salt 다운로드 제공
+                // 5. salt 다운로드 제공
+                console.log("[runEncrypt] salt 다운로드 생성 시작");
                 const saltBlob = new Blob([salt], { type: "application/octet-stream" });
                 const url = window.URL.createObjectURL(saltBlob);
                 const a = document.createElement("a");
@@ -97,10 +128,11 @@ export default function EncodeDo() {
                 document.body.appendChild(a);
                 a.click();
                 a.remove();
+                console.log("[runEncrypt] salt 다운로드 완료");
 
                 setSymmetricDone(true);
             } catch (e) {
-                console.error(e);
+                console.error("[runEncrypt] 암호화 처리 중 오류 발생:", e);
                 alert("암호화 처리 중 오류가 발생했습니다.");
             }
         };
@@ -108,33 +140,44 @@ export default function EncodeDo() {
         runEncrypt();
     }, []);
 
-    // 수정된 importRsaPublicKey 함수 (PEM 제거 로직 없이 바로 atob)
-    const importRsaPublicKey = async (base64String) => {
-        const binaryDerString = atob(base64String); // ← 바로 디코딩
-        const binaryDer = new Uint8Array([...binaryDerString].map(ch => ch.charCodeAt(0)));
-
-        return await window.crypto.subtle.importKey(
-            "spki",
-            binaryDer,
-            {
-                name: "RSA-OAEP",
-                hash: "SHA-256"
-            },
-            true,
-            ["encrypt"]
-        );
-    };
-
     const encryptAesKeyWithPublicKey = async (aesKeyBytes) => {
-        const response = await axios.get("http://localhost:8080/api/keys/public-key", { responseType: "text" });
-        const pem = response.data;
-        const publicKey = await importRsaPublicKey(pem);
-        const encryptedKey = await window.crypto.subtle.encrypt(
-            { name: "RSA-OAEP" },
-            publicKey,
-            aesKeyBytes
-        );
-        return new Uint8Array(encryptedKey);
+        try {
+            // 공개키를 raw bytes로 받음
+            const response = await axios.get("/api/keys/public-key", { responseType: "arraybuffer" });
+            const keyBytes = new Uint8Array(response.data);
+
+            console.log("Public key bytes length:", keyBytes.length);
+
+            console.log("Public key bytes (hex):", Array.from(keyBytes).map(b => b.toString(16).padStart(2, '0')).join(''));
+
+            const publicKey = await window.crypto.subtle.importKey(
+                "spki",
+                keyBytes.buffer,
+                {
+                    name: "RSA-OAEP",
+                    hash: "SHA-256"
+                },
+                true,
+                ["encrypt"]
+            );
+
+            // Uint8Array인지 확인 후 buffer 전달
+            let inputBuffer = (aesKeyBytes instanceof Uint8Array) ? aesKeyBytes.buffer : new Uint8Array(aesKeyBytes).buffer;
+
+            const encryptedKey = await window.crypto.subtle.encrypt(
+                {
+                    name: "RSA-OAEP",
+                    hash: "SHA-256"
+                },
+                publicKey,
+                inputBuffer
+            );
+
+            return new Uint8Array(encryptedKey);
+        } catch (e) {
+            console.error("encryptAesKeyWithPublicKey error:", e);
+            throw e;
+        }
     };
 
     return (
@@ -202,7 +245,6 @@ export default function EncodeDo() {
                         </div>
                     )}
 
-
                     <hr className={styles.divider} />
 
                     <div className={styles.signatureSection}>
@@ -223,7 +265,7 @@ export default function EncodeDo() {
                                         const url = window.URL.createObjectURL(blob);
                                         const a = document.createElement("a");
                                         a.href = url;
-                                        a.download = "signed_key_package.zip"; // ZIP 형태로 묶었을 수도 있음
+                                        a.download = "signed_key_package.zip";
                                         document.body.appendChild(a);
                                         a.click();
                                         a.remove();
