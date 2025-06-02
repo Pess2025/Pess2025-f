@@ -4,21 +4,48 @@ import checkImg from './assets/check.png';
 import loadingImg from './assets/loading.png';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../Common/Routes';
+import axios from 'axios';
 
 export default function DecodeDo() {
+
+  const [timeDone, setTimeDone] = useState(false);
   const [symmetricDone, setSymmetricDone] = useState(false);
   const [textDecryptionDone, setTextDecryptionDone] = useState(false);
 
   const navigate = useNavigate();
 
-  // 테스트용 타이머 -> 시간에 따라 상태 보여줌 / 백엔드 개발 후에는 타이머 말고 값 리턴 확인하고 바뀌도록 변경 해야함
+// 테스트용 타이머 -> 시간에 따라 상태 보여줌 / 백엔드 개발 후에는 타이머 말고 값 리턴 확인하고 바뀌도록 변경 해야함
+React.useEffect(() => {
+const symTimer = setTimeout(() => setTimeDone(true), 1000);
+return () => {
+  clearTimeout(symTimer);
+};
+}, []);
+
   React.useEffect(() => {
-    const symTimer = setTimeout(() => setSymmetricDone(true), 2000);
-    const textTimer = setTimeout(() => setTextDecryptionDone(true), 4000);
-    return () => {
-      clearTimeout(symTimer);
-      clearTimeout(textTimer);
+    const fetchAndDecrypt = async () => {
+      try {
+        // 1. AES 키 존재 확인
+        const aesRes = await axios.get("http://localhost:8080/decode/check-aes-key");
+        if (aesRes.data.aesKeyExists) {
+          setSymmetricDone(true);
+
+          // 2. password.txt 복호화
+          const decryptRes = await axios.post("http://localhost:8080/decode/password-file");
+          if (decryptRes.status === 200) {
+            setTextDecryptionDone(true);
+          } else {
+            console.error("텍스트 복호화 실패:", decryptRes.data);
+          }
+        } else {
+          console.warn("AES 키가 존재하지 않습니다.");
+        }
+      } catch (error) {
+        console.error("복호화 준비 중 오류 발생:", error);
+      }
     };
+
+    fetchAndDecrypt();
   }, []);
 
   return (
@@ -81,8 +108,8 @@ export default function DecodeDo() {
           <div className={styles.block}>
             <div className={styles.blockHeader}>전자봉투에서 대칭키 복호화</div>
             <div className={styles.blockBody}>
-              <p>{symmetricDone ? '대칭키 복호화가 완료 되었습니다.' : '대칭키 복호화 중 입니다.'}</p>
-              <img src={symmetricDone ? checkImg : loadingImg} alt="상태 이미지" className={styles.statusIcon} />
+              <p>{timeDone && symmetricDone ? '대칭키 복호화가 완료 되었습니다.' : '대칭키 복호화 중 입니다.'}</p>
+              <img src={timeDone && symmetricDone ? checkImg : loadingImg} alt="상태 이미지" className={styles.statusIcon} />
             </div>
           </div>
 
@@ -92,8 +119,8 @@ export default function DecodeDo() {
           <div className={styles.block}>
             <div className={styles.blockHeader}>대칭키로 텍스트 파일 복호화</div>
             <div className={styles.blockBody}>
-              <p>{textDecryptionDone ? '텍스트 파일 복호화가 완료 되었습니다.' : '텍스트 파일 복호화 중 입니다.'}</p>
-              <img src={textDecryptionDone ? checkImg : loadingImg} alt="상태 이미지" className={styles.statusIcon} />
+              <p>{timeDone && textDecryptionDone ? '텍스트 파일 복호화가 완료 되었습니다.' : '텍스트 파일 복호화 중 입니다.'}</p>
+              <img src={timeDone && textDecryptionDone ? checkImg : loadingImg} alt="상태 이미지" className={styles.statusIcon} />
             </div>
           </div>
 
