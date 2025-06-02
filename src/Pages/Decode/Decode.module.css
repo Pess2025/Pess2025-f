@@ -144,22 +144,13 @@ margin-top: 1px;
   padding: 48px;
 }
 
-.uploadBox_Envelope {
+.uploadBox_PrivateKey {
   margin-top: 30px;
   background-color: white;
   border: 1px dashed #ccc;
   border-radius: 12px;
   padding: 32px;
 }
-
-.uploadBox_EncodeFile {
-  margin-top: 30px;
-  background-color: white;
-  border: 1px dashed #ccc;
-  border-radius: 12px;
-  padding: 32px;
-}
-
 
 .uploadTitle {
   font-size: 16px;

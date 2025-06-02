@@ -2,9 +2,12 @@ import React, { useRef } from 'react';
 import styles from './Search.module.css';
 import searchInput from './assets/search-bar.png';
 import searchIcon from './assets/search-icon.png';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../Common/Routes';
 
 export default function Search() {
     const inputRef = useRef();
+    const navigate = useNavigate();
 
     return (
         <div className={styles.container}>
@@ -15,7 +18,7 @@ export default function Search() {
                     <div className={styles.stepRow}>
                         <div className={styles.stepItem}>
                             <span>1</span> 
-                                <div className={styles.text}>암호화 된 파일 업로드</div>
+                                <div className={styles.text}>개인 키 업로드</div>
                             </div>
                         </div>
                     </li>
@@ -49,9 +52,9 @@ export default function Search() {
                         <div className={styles.stepItem}>
                             <span>5</span>
                             <div className={styles.textBlock}>
-                                <div className={styles.text}>키 검색 및 원본 다운로드</div>
+                                <div className={styles.text}>키 검색 및 파일 다운로드</div>
                                 <ul className={styles.subList}>
-                                        <li className={styles.active_mini}>· 키 검색 및 원본 파일 다운로드</li>
+                                        <li className={styles.active_mini}>· 비밀번호 검색 및 파일 다운로드</li>
                                 </ul>
                             </div>
                         </div>
@@ -61,7 +64,9 @@ export default function Search() {
 
                 <main className={styles.main}>
                     <h2>복호화</h2>
-
+                    <p style={{ fontWeight: 600, fontSize: '16px', marginBottom: '12px' }}>
+                        비밀번호 값은 해시 값으로 제공 됩니다. 서비스 명을 검색해주세요. (ex, Goole)
+                    </p>
                     <div className={styles.searchBoxWrapper} onClick={() => inputRef.current?.focus()}>
                         <img src={searchInput} alt="Search Bar" className={styles.searchBarImg} />
                         <img src={searchIcon} alt="Search Icon" className={styles.searchIconOverlay} />
@@ -75,7 +80,7 @@ export default function Search() {
 
                     <div className={styles.uploadBox}>
                         <p style={{ fontWeight: 600, fontSize: '16px', marginBottom: '12px' }}>
-                            원본 파일 다운로드
+                            전자 봉투 다운로드
                         </p>
                         <div
                             style={{
@@ -93,12 +98,15 @@ export default function Search() {
                             
                             <a
                                 href="/download/original-file"
-                                className={styles.primary}
+                                className={styles.outline}
                                 style={{ textDecoration: 'none' }}
                             >
                                 다운로드
                             </a>
                         </div>
+                    </div>
+                    <div className={styles.buttons}>
+                      <button className={styles.primary} onClick={() => navigate(ROUTES.MAIN)}>종료</button>
                     </div>
                 </main>
             </div>
