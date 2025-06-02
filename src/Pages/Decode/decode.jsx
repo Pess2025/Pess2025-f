@@ -3,6 +3,7 @@ import styles from './Decode.module.css';
 import uploadIcon from './assets/upload_icon.png';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../Common/Routes';
+import axios from 'axios';
 
 export default function Decode() {
   const [privateKeyFile, setPrivateKeyFile] = useState(null);
@@ -11,10 +12,29 @@ export default function Decode() {
 
   const handlePrivateKeyFileChange = (e) => {
     const file = e.target.files[0];
-    if (file) setPrivateKeyFile(file.name);
+    if (file) setPrivateKeyFile(file);
   };
 
   const navigate = useNavigate();
+
+  const handleUpload = async () => {
+    if (!privateKeyFile) {
+      alert("개인키 파일을 선택해주세요.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('privateKey', privateKeyFile); // 실제 File 객체 전달
+
+    try {
+      await axios.post('http://localhost:8080/key/decode/upload', formData);
+      alert("개인키 업로드 성공!");
+      navigate(ROUTES.DECODE_READY); // 다음 단계로 이동
+    } catch (error) {
+      console.error(error);
+      alert("업로드 실패: " + error.message);
+    }
+  };
 
   const privateKeyDropRef = useRef();
 
@@ -89,7 +109,7 @@ export default function Decode() {
             <p className={styles.uploadTitle}>개인 키 파일 업로드(.key)</p>
             <div className={styles.uploadArea}>
               {privateKeyFile ? (
-                <p className={styles.fileName}>선택된 파일: {privateKeyFile}</p>
+                <p className={styles.fileName}>선택된 파일: {privateKeyFile.name}</p>
               ) : (
                 <>
                   <p>파일을 드래그하거나 선택하세요.</p>
@@ -100,7 +120,7 @@ export default function Decode() {
             </div>
           </div>
           <div className={styles.buttons}>
-            <button className={styles.primary} onClick={() => navigate(ROUTES.DECODE_READY)}>완료</button>
+            <button className={styles.primary} onClick={handleUpload}>완료</button>
             <button className={styles.outlined} onClick={() => {setPrivateKeyFile(null);;  if (privateKeyInputRef.current) {privateKeyInputRef.current.value = '';}}}>취소</button>
           </div>
         </main>
