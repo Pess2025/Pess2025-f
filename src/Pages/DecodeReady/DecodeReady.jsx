@@ -1,27 +1,21 @@
 import React, { useState, useRef } from 'react';
 import styles from './DecodeReady.module.css';
-import uploadIcon from './assets/upload_icon.png';
+import checkImg from './assets/check.png';
+import loadingImg from './assets/loading.png';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../Common/Routes';
 
 export default function DecodeReady() {
-  const [files, setFiles] = useState([]);
-  const dropRef = useRef();
-
-  const handleDrop = (e) => {
-    e.preventDefault();
-    const droppedFiles = Array.from(e.dataTransfer.files).slice(0, 3);
-    setFiles(droppedFiles);
-  };
-
+  const [symmetricDone, setSymmetricDone] = useState(false);
   const navigate = useNavigate();
 
-  const handleDragOver = (e) => e.preventDefault();
-
-  const handleFileChange = (e) => {
-    const selectedFiles = Array.from(e.target.files).slice(0, 3);
-    setFiles(selectedFiles);
-  };
+    // 테스트용 타이머 -> 시간에 따라 상태 보여줌 / 백엔드 개발 후에는 타이머 말고 값 리턴 확인하고 바뀌도록 변경 해야함
+    React.useEffect(() => {
+      const symTimer = setTimeout(() => setSymmetricDone(true), 2000);
+      return () => {
+        clearTimeout(symTimer);
+      };
+    }, []);
 
   return (
     <div className={styles.container}>
@@ -32,7 +26,7 @@ export default function DecodeReady() {
               <div className={styles.stepRow}>
                 <div className={styles.stepItem}>
                     <span>1</span> 
-                        <div className={styles.text}>암호화 된 파일 업로드</div>
+                        <div className={styles.text}>개인 키 업로드</div>
                     </div>
                 </div>
             </li>
@@ -42,7 +36,7 @@ export default function DecodeReady() {
                     <div className={styles.textBlock}>
                       <div className={styles.text}>복호화 준비</div>
                       <ul className={styles.subList}>
-                          <li className={styles.active_mini}>· 파일 업로드</li>
+                          <li className={styles.active_mini}>· 파일 확인</li>
                       </ul>
                     </div>
                 </div>
@@ -76,34 +70,19 @@ export default function DecodeReady() {
 
         <main className={styles.main}>
           <h2>복호화</h2>
-          <div
-            className={styles.uploadBox}
-            onDrop={handleDrop}
-            onDragOver={handleDragOver}
-            onClick={() => dropRef.current.querySelector('input').click()}
-            ref={dropRef}
-          >
-            <p className={styles.uploadTitle}>개인 키, 전자 서명, 해시 파일 업로드</p>
-            <div className={styles.uploadArea}>
-            {files.length > 0 ? (
-              <ul className={styles.fileList}>
-                {files.map((file, idx) => (
-                  <li key={idx} className={styles.fileName}>선택된 파일: {file.name}</li>
-                ))}
-              </ul>
-            ) : (
-                <>
-                  <p>파일을 드래그 해서 올려주세요.</p>
-                  <img src={uploadIcon} alt="upload" className={styles.uploadIcon} />
-                </>
-              )}
-              <input type="file" className={styles.inputHidden} onChange={handleFileChange} multiple />
+          <div className={styles.block}>
+              <div className={styles.blockHeader}>서버에서 복호화에 사용할 파일 확인</div>
+              <div className={styles.blockBody}>
+                <p>{symmetricDone ? '대상 파일을 확인 했습니다. 복호화가 가능 합니다.' : '파일을 찾는 중 입니다.'}</p>
+                <img src={symmetricDone ? checkImg : loadingImg} alt="상태 이미지" className={styles.statusIcon} />
+              </div>
             </div>
-          </div>
-          <div className={styles.buttons}>
-            <button className={styles.primary} onClick={() => navigate(ROUTES.DECODE_DO)}>완료</button>
-            <button className={styles.outlined} onClick={() => setFiles([])}>취소</button>
-          </div>
+            {/* 완료되었을 때만 다음 버튼 */}
+              {symmetricDone && (
+                <div className={styles.buttons}>
+                  <button className={styles.primary} onClick={() => navigate(ROUTES.DECODE_DO)}>다음</button>
+                </div>
+              )}
         </main>
       </div>
     </div>
