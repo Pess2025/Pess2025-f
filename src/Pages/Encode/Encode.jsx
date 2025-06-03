@@ -145,7 +145,7 @@ export default function Encode() {
      * */
     const handlePrivateGenerateKey = async () => {
         try {
-            const res = await axios.post("/api/keys/generate", null, {
+            const res = await axios.get("/api/keys/generate/private-key", null, {
                 responseType: "blob",
             }); // binary 로 받기
 
@@ -166,7 +166,7 @@ export default function Encode() {
 
     const handlePublicGenerateKey = async () => {
         try {
-            const res = await axios.post("/api/keys/generate", null, {
+            const res = await axios.get("/api/keys/generate/public-key", null, {
                 responseType: "blob",
             }); // binary 로 받기
 

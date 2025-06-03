@@ -27,7 +27,7 @@ export default function Decode() {
     formData.append('privateKey', privateKeyFile); // 실제 File 객체 전달
 
     try {
-      await axios.post('http://localhost:8080/key/decode/upload', formData);
+      await axios.post('http://localhost:8080/api/keys/decode/upload', formData);
       alert("개인키 업로드 성공!");
       navigate(ROUTES.DECODE_READY); // 다음 단계로 이동
     } catch (error) {

@@ -14,12 +14,16 @@ export default function EncodeDo() {
     const passwordFile = location.state?.passwordFile;
 
     const readPasswordFromFile = (file) => {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result.trim());
-            reader.onerror = () => reject(new Error("파일 읽기 실패"));
-            reader.readAsText(file);
-        });
+         return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const arrayBuffer = reader.result;
+                    const byteArray = new Uint8Array(arrayBuffer);
+                    resolve(byteArray);  // 바이트 배열 반환
+                };
+                reader.onerror = () => reject(new Error("파일 읽기 실패"));
+                reader.readAsArrayBuffer(file);  //바이트 단위로 읽음
+            });
     };
 
     const generateSalt = () => {
@@ -35,16 +39,61 @@ export default function EncodeDo() {
         return new Uint8Array(hashBuffer);
     };
 
-    const generateAesKey = () => {
-        return window.crypto.getRandomValues(new Uint8Array(16)); // 128-bit AES
-    };
-
     const encryptWithAES = (plainText, keyBytes) => {
         const key = CryptoJS.lib.WordArray.create(keyBytes);
         return CryptoJS.AES.encrypt(plainText, key, {
             mode: CryptoJS.mode.ECB,  // 필요하면 CBC 등으로 변경 가능
             padding: CryptoJS.pad.Pkcs7
         }).toString();
+    };
+
+//     const encryptWithAES = (plainText, keyBytes) => {
+//         const key = CryptoJS.lib.WordArray.create(keyBytes);
+//         const encrypted = CryptoJS.AES.encrypt(plainText, key, {
+//             mode: CryptoJS.mode.ECB,
+//             padding: CryptoJS.pad.Pkcs7
+//         });
+//         // WordArray를 Uint8Array로 변환
+//         const wordArray = encrypted.ciphertext;
+//         const byteArray = [];
+//         for (let i = 0; i < wordArray.sigBytes; i++) {
+//             byteArray.push((wordArray.words[Math.floor(i / 4)] >>> (24 - (i % 4) * 8)) & 0xff);
+//         }
+//         return new Uint8Array(byteArray);
+//     };
+
+    const encryptAesKeyWithPublicKey = async (aesKeyBytes) => {
+        try {
+            const response = await axios.get("/api/keys/generate/public-key", { responseType: "arraybuffer" });
+            const keyBytes = new Uint8Array(response.data);
+
+            console.log("AES key byte length:", aesKeyBytes.length);
+            console.log(Array.from(keyBytes).slice(0, 10).map(b => b.toString(16).padStart(2, '0')).join(' '));
+            console.log("Public key bytes length:", keyBytes.length);
+            console.log("Public key bytes (hex):", Array.from(keyBytes).map(b => b.toString(16).padStart(2, '0')).join(''));
+
+
+            const publicKey = await crypto.subtle.importKey(
+              "spki",
+              keyBytes.buffer,
+              { name: "RSA-OAEP", hash: "SHA-256" },
+              false,
+              ["encrypt"]
+            );
+
+            console.log("퍼블릭키:", publicKey.toString());
+
+            const encryptedKey = await window.crypto.subtle.encrypt(
+                { name: "RSA-OAEP" },
+                publicKey,
+                aesKeyBytes.slice(0, 32)
+            );
+
+            return new Uint8Array(encryptedKey);
+        } catch (e) {
+            console.error("encryptAesKeyWithPublicKey error:", e);
+            throw e;
+        }
     };
 
     useEffect(() => {
@@ -79,10 +128,14 @@ export default function EncodeDo() {
                 });
                 console.log("[runEncrypt] 해시 파일 서버 전송 완료");
 
-                // 2. AES 대칭키로 암호화
-                console.log("[runEncrypt] AES 대칭키 생성 시작");
-                const aesKey = generateAesKey();
-                console.log("[runEncrypt] AES 대칭키 생성 완료, aesKey:", aesKey);
+                // 2. AES 대칭키로 암호화 -> 백의 AESKeyHolder 에서 .getinstance().getAES();해서 얻어서 프론트에 대칭키를 전송해줘야
+                console.log("[runEncrypt] AES 대칭키 들고오기 시작");
+                const res = await axios.get("/api/keys/aes-key", {
+                    responseType: "arraybuffer",
+                });
+                const aesKey = new Uint8Array(res.data); //원래 generateAesKey();였는데 생성하면 안 됨
+                console.log("[runEncrypt] AES 대칭키 들고오기 완료, aesKey:", aesKey);
+
 
                 console.log("[runEncrypt] 비밀번호 AES 암호화 시작");
                 const encrypted = encryptWithAES(password, aesKey);
@@ -139,42 +192,6 @@ export default function EncodeDo() {
 
         runEncrypt();
     }, []);
-
-    const encryptAesKeyWithPublicKey = async (aesKeyBytes) => {
-        try {
-            const response = await axios.get("/api/keys/public-key", { responseType: "arraybuffer" });
-            const keyBytes = new Uint8Array(response.data);
-
-            console.log("Public key bytes length:", keyBytes.length);
-            console.log("Public key bytes (hex):", Array.from(keyBytes).map(b => b.toString(16).padStart(2, '0')).join(''));
-
-            const publicKey = await window.crypto.subtle.importKey(
-                "spki",
-                keyBytes,  // ✅ 이미 ArrayBuffer 또는 TypedArray이므로 .buffer 제거
-                {
-                    name: "RSA-OAEP",
-                    hash: "SHA-256"
-                },
-                true,
-                ["encrypt"]
-            );
-
-            const encryptedKey = await window.crypto.subtle.encrypt(
-                {
-                    name: "RSA-OAEP"
-                },
-                publicKey,
-                aesKeyBytes  // ✅ 이게 Uint8Array면 OK (crypto.subtle.encrypt는 ArrayBufferView 허용)
-            );
-            console.log("aesKeyBytes instanceof Uint8Array:", aesKeyBytes instanceof Uint8Array);
-            console.log("aesKeyBytes length:", aesKeyBytes.length);
-            console.log("aesKeyBytes buffer type:", Object.prototype.toString.call(aesKeyBytes.buffer));
-            return new Uint8Array(encryptedKey);
-        } catch (e) {
-            console.error("encryptAesKeyWithPublicKey error:", e);
-            throw e;
-        }
-    };
 
     return (
         <div className={styles.container}>

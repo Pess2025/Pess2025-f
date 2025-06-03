@@ -45,8 +45,8 @@ const Main = () => {
 
                 <div className="button-group">
                     <button className="intro-btn" onClick={toggleFeatures}>핵심 기능 소개</button>
-                    <button className="start-btn" onClick={() => navigate('/encode')}>암호화 및 복호화 시작하기</button>
-                    <button className="start-btn" onClick={() => navigate('/decode')}>복호화</button> {/* 임시 테스트용 */}
+                    <button className="start-btn" onClick={() => navigate('/encode')}>암호화</button>
+                    <button className="start-btn2" onClick={() => navigate('/decode')}>복호화</button>
                 </div>
 
                 <div className={`feature-section ${showFeatures ? 'open' : ''}`}>

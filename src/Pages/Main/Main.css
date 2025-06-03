@@ -43,13 +43,26 @@
 }
 
 .start-btn {
-    background-color: transparent;
-    color: #2563eb;
-    border: 1px solid #2563eb;
+    background-color: #2563eb;
+    color: white;
+    border: none;
     padding: 10px 16px;
     font-size: 14px;
     border-radius: 6px;
+    margin-right: 12px;
     cursor: pointer;
+}
+
+.start-btn2 {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    font-size: 14px;
+    border-radius: 6px;
+    margin-right: 12px;
+    cursor: pointer;
+    
 }
 
 /* 본문 */
