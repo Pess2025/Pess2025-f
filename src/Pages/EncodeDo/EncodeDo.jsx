@@ -142,17 +142,15 @@ export default function EncodeDo() {
 
     const encryptAesKeyWithPublicKey = async (aesKeyBytes) => {
         try {
-            // 공개키를 raw bytes로 받음
             const response = await axios.get("/api/keys/public-key", { responseType: "arraybuffer" });
             const keyBytes = new Uint8Array(response.data);
 
             console.log("Public key bytes length:", keyBytes.length);
-
             console.log("Public key bytes (hex):", Array.from(keyBytes).map(b => b.toString(16).padStart(2, '0')).join(''));
 
             const publicKey = await window.crypto.subtle.importKey(
                 "spki",
-                keyBytes.buffer,
+                keyBytes,  // ✅ 이미 ArrayBuffer 또는 TypedArray이므로 .buffer 제거
                 {
                     name: "RSA-OAEP",
                     hash: "SHA-256"
@@ -161,18 +159,16 @@ export default function EncodeDo() {
                 ["encrypt"]
             );
 
-            // Uint8Array인지 확인 후 buffer 전달
-            let inputBuffer = (aesKeyBytes instanceof Uint8Array) ? aesKeyBytes.buffer : new Uint8Array(aesKeyBytes).buffer;
-
             const encryptedKey = await window.crypto.subtle.encrypt(
                 {
-                    name: "RSA-OAEP",
-                    hash: "SHA-256"
+                    name: "RSA-OAEP"
                 },
                 publicKey,
-                inputBuffer
+                aesKeyBytes  // ✅ 이게 Uint8Array면 OK (crypto.subtle.encrypt는 ArrayBufferView 허용)
             );
-
+            console.log("aesKeyBytes instanceof Uint8Array:", aesKeyBytes instanceof Uint8Array);
+            console.log("aesKeyBytes length:", aesKeyBytes.length);
+            console.log("aesKeyBytes buffer type:", Object.prototype.toString.call(aesKeyBytes.buffer));
             return new Uint8Array(encryptedKey);
         } catch (e) {
             console.error("encryptAesKeyWithPublicKey error:", e);
