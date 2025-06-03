@@ -39,13 +39,16 @@ export default function EncodeDo() {
         return new Uint8Array(hashBuffer);
     };
 
-    const encryptWithAES = (plainText, keyBytes) => {
-        const key = CryptoJS.lib.WordArray.create(keyBytes);
-        return CryptoJS.AES.encrypt(plainText, key, {
-            mode: CryptoJS.mode.ECB,  // 필요하면 CBC 등으로 변경 가능
-            padding: CryptoJS.pad.Pkcs7
-        }).toString();
-    };
+    const encryptWithAES = (plainTextBytes, keyBytes) => {
+            // 입력된 바이트 배열을 WordArray로 변환
+            const plaintext = CryptoJS.lib.WordArray.create(plainTextBytes);
+            const key = CryptoJS.lib.WordArray.create(keyBytes);
+
+            return CryptoJS.AES.encrypt(plaintext, key, {
+                mode: CryptoJS.mode.ECB,
+                padding: CryptoJS.pad.Pkcs7
+            }).toString();
+        };
 
 //     const encryptWithAES = (plainText, keyBytes) => {
 //         const key = CryptoJS.lib.WordArray.create(keyBytes);
@@ -68,9 +71,8 @@ export default function EncodeDo() {
             const keyBytes = new Uint8Array(response.data);
 
             console.log("AES key byte length:", aesKeyBytes.length);
-            console.log(Array.from(keyBytes).slice(0, 10).map(b => b.toString(16).padStart(2, '0')).join(' '));
             console.log("Public key bytes length:", keyBytes.length);
-            console.log("Public key bytes (hex):", Array.from(keyBytes).map(b => b.toString(16).padStart(2, '0')).join(''));
+            console.log("Public key bytes (String):", Array.from(keyBytes).toString());
 
 
             const publicKey = await crypto.subtle.importKey(
