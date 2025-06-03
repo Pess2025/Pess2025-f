@@ -9,7 +9,8 @@
  *   - 검색창 클릭 시 input에 포커스 적용
  */
 
-import React, { useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import axios from 'axios';
 import styles from './Result.module.css';
 import searchInput from './assets/search-bar.png';
 import searchIcon from './assets/search-icon.png';
@@ -18,8 +19,46 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../Common/Routes';
 
 export default function Result() {
+    const [integrityStatus, setIntegrityStatus] = useState(null);
+    const [signatureStatus, setSignatureStatus] = useState(null);
+    const [fileName, setFileName] = useState(null);
+    const [checkTime, setCheckTime] = useState(null);
+
     const inputRef = useRef();
     const navigate = useNavigate();
+
+    useEffect(() => {
+            // 검사 시간 저장
+            const now = new Date();
+            const formatted = now.toISOString().slice(0, 19).replace("T", " ");
+            setCheckTime(formatted);
+
+            //파일 이름 가져오기
+            axios.get("/result/filename")
+                .then(response => {
+                      const files = response.data;
+                      setFileName(files.file);
+                })
+
+            // 무결성 검증 요청
+            axios.get("/verify/integrity")
+                .then(res => {
+                    if (res.status === 200) setIntegrityStatus("일치");
+                    else setIntegrityStatus("불일치");
+                })
+                .catch(() => setIntegrityStatus("불일치"));
+
+
+
+            // 전자서명 확인
+            axios.get("/verify/signature")
+                .then(res => {
+                    if (res.status === 200) setSignatureStatus("유효함");
+                    else setSignatureStatus("없음");
+                })
+                .catch(() => setSignatureStatus("없음"));
+    }, []);
+
 
     return (
         <div className={styles.container}>
@@ -91,10 +130,10 @@ export default function Result() {
                                 gap: '12px'
                             }}
                         >
-                            <p><strong>📄 파일명:</strong> secret.txt</p>
-                            <p><strong>⏱ 검사 시간:</strong> 2025-05-16 10:12:05</p>
-                            <p><strong>✅ 파일 무결성:</strong> 일치</p>
-                            <p><strong>📝 전자서명:</strong> 유효함</p>
+                            <p><strong>📄 파일명:</strong> {fileName || "로딩 중..."}</p>
+                            <p><strong>⏱ 검사 시간:</strong> {checkTime || "로딩 중..."}</p>
+                            <p><strong>✅ 파일 무결성:</strong> {integrityStatus || "검사 중..."}</p>
+                            <p><strong>📝 전자서명:</strong> {signatureStatus || "검사 중..."}</p>
                         </div>
                         <div className={styles.buttons}>
                                 <button className={styles.primary_page} onClick={() => navigate(ROUTES.SEARCH)}>다음</button>
