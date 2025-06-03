@@ -40,8 +40,11 @@ export default function EncodeDo() {
     };
 
     const encryptWithAES = (plainText, keyBytes) => {
-        const keyStr = Array.from(keyBytes).map(b => String.fromCharCode(b)).join('');
-        return CryptoJS.AES.encrypt(plainText, keyStr).toString();
+        const keyWordArray = CryptoJS.lib.WordArray.create(keyBytes);
+        return CryptoJS.AES.encrypt(plainText, keyWordArray, {
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.Pkcs7
+        }).toString();
     };
 
     useEffect(() => {
@@ -58,7 +61,7 @@ export default function EncodeDo() {
                 const salt = generateSalt();
                 const hashed = await hashWithSalt(password, salt);
 
-                const hashBlob = new Blob([hashed], { type: "application/octet-stream" });
+               const hashBlob = new Blob([new Uint8Array(hashed)], { type: "application/octet-stream" });
                 const hashForm = new FormData();
                 hashForm.append("hashFile", hashBlob, "hashed_password.txt");
 
@@ -108,33 +111,38 @@ export default function EncodeDo() {
         runEncrypt();
     }, []);
 
-    // 수정된 importRsaPublicKey 함수 (PEM 제거 로직 없이 바로 atob)
-    const importRsaPublicKey = async (base64String) => {
-        const binaryDerString = atob(base64String); // ← 바로 디코딩
-        const binaryDer = new Uint8Array([...binaryDerString].map(ch => ch.charCodeAt(0)));
+    // 자바 직렬화가 아닌 X.509 인코딩된 바이너리 .key 파일을 불러와 CryptoKey로 변환
+    const importRsaPublicKeyFromBinary = async () => {
+        try {
+            const res = await axios.get("http://localhost:8080/api/keys/public-key-binary", {
+                responseType: "arraybuffer"
+            });
 
-        return await window.crypto.subtle.importKey(
-            "spki",
-            binaryDer,
-            {
-                name: "RSA-OAEP",
-                hash: "SHA-256"
-            },
-            true,
-            ["encrypt"]
-        );
+            const binaryDer = new Uint8Array(res.data); // DER-encoded public key
+            const publicKey = await window.crypto.subtle.importKey(
+                "spki",
+                binaryDer,
+                { name: "RSA-OAEP", hash: "SHA-256" },
+                true,
+                ["encrypt"]
+            );
+
+            return publicKey;
+        } catch (err) {
+            console.error("공개키 불러오기 실패:", err);
+            throw err;
+        }
     };
 
+
     const encryptAesKeyWithPublicKey = async (aesKeyBytes) => {
-        const response = await axios.get("http://localhost:8080/api/keys/public-key", { responseType: "text" });
-        const pem = response.data;
-        const publicKey = await importRsaPublicKey(pem);
-        const encryptedKey = await window.crypto.subtle.encrypt(
-            { name: "RSA-OAEP" },
-            publicKey,
-            aesKeyBytes
-        );
-        return new Uint8Array(encryptedKey);
+        const publicKey = await importRsaPublicKeyFromBinary();
+            const encrypted = await window.crypto.subtle.encrypt(
+                { name: "RSA-OAEP" },
+                publicKey,
+                aesKeyBytes
+            );
+            return new Uint8Array(encrypted);
     };
 
     return (
