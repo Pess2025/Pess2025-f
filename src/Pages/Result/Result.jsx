@@ -28,10 +28,6 @@ export default function Result() {
     const navigate = useNavigate();
 
     useEffect(() => {
-            // 검사 시간 저장
-            const now = new Date();
-            const formatted = now.toISOString().slice(0, 19).replace("T", " ");
-            setCheckTime(formatted);
 
             //파일 이름 가져오기
             axios.get("/result/filename")
@@ -40,23 +36,30 @@ export default function Result() {
                       setFileName(files.file);
                 })
 
+            // 검사 시간 저장
+            axios.get("/verify/time")
+                .then(res => {
+                    setCheckTime(res.data.checkTime);
+                })
+                .catch(() => {
+                    const now = new Date();
+                    const formatted = now.toISOString().slice(0, 19).replace("T", " ");
+                    setCheckTime(formatted); // 실패 시 Fallback
+            });
+
             // 무결성 검증 요청
             axios.get("/verify/integrity")
                 .then(res => {
-                    if (res.status === 200) setIntegrityStatus("일치");
-                    else setIntegrityStatus("불일치");
+                    if (res.status === 200){
+                        setIntegrityStatus("일치");
+                        setSignatureStatus("유효함");
+                    }
+                    else {setIntegrityStatus("불일치");
+                        setSignatureStatus("없음");
+                    };
                 })
-                .catch(() => setIntegrityStatus("불일치"));
+                .catch(() => setIntegrityStatus("불일치"), setSignatureStatus("없음"));
 
-
-
-            // 전자서명 확인
-            axios.get("/verify/signature")
-                .then(res => {
-                    if (res.status === 200) setSignatureStatus("유효함");
-                    else setSignatureStatus("없음");
-                })
-                .catch(() => setSignatureStatus("없음"));
     }, []);
 
 
@@ -131,7 +134,7 @@ export default function Result() {
                             }}
                         >
                             <p><strong>📄 파일명:</strong> {fileName || "로딩 중..."}</p>
-                            <p><strong>⏱ 검사 시간:</strong> {checkTime || "로딩 중..."}</p>
+                            <p><strong>⏱ 검사 완료 시간:</strong> {checkTime || "로딩 중..."}</p>
                             <p><strong>✅ 파일 무결성:</strong> {integrityStatus || "검사 중..."}</p>
                             <p><strong>📝 전자서명:</strong> {signatureStatus || "검사 중..."}</p>
                         </div>

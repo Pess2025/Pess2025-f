@@ -32,6 +32,8 @@ return () => {
 
           // 2. password.txt 복호화
           const decryptRes = await axios.post("http://localhost:8080/decode/password-file");
+          console.log("📦 복호화 status:", decryptRes.status);
+          console.log("📦 복호화 응답 내용:", decryptRes.data);
           if (decryptRes.status === 200) {
             // 텍스트 복호화 상태를 1초 후에 true로 설정
             setTimeout(() => setTextDecryptionDone(true), 2000);

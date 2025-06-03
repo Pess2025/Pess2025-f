@@ -1,13 +1,42 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import styles from './Search.module.css';
 import searchInput from './assets/search-bar.png';
 import searchIcon from './assets/search-icon.png';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../Common/Routes';
+import axios from 'axios';
 
 export default function Search() {
     const inputRef = useRef();
     const navigate = useNavigate();
+    const [searchResult, setSearchResult] = useState(null);
+    const [errorMsg, setErrorMsg] = useState(null);
+
+    const handleSearch = () => {
+        const query = inputRef.current?.value.trim();
+        if (!query) {
+            setErrorMsg("검색어를 입력해주세요.");
+            setSearchResult(null);
+            return;
+        }
+
+        // 검색어를 서버에 전달
+        fetch(`http://localhost:8080/password/search?key=${encodeURIComponent(query)}`)
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error("해당 키를 찾을 수 없습니다.");
+                }
+                return res.text();
+            })
+            .then(data => {
+                setSearchResult(data);
+                setErrorMsg(null);
+            })
+            .catch(err => {
+                setErrorMsg(err.message);
+                setSearchResult(null);
+            });
+    };
 
     return (
         <div className={styles.container}>
@@ -77,7 +106,18 @@ export default function Search() {
                             className={styles.searchInputOverlay}
                         />
                     </div>
+                    <button className={styles.primary} onClick={handleSearch}>검색</button>
+                    {searchResult && (
+                        <div style={{ marginTop: '16px', fontWeight: 'bold' }}>
+                             {searchResult}
+                        </div>
+                    )}
 
+                    {errorMsg && (
+                        <div style={{ marginTop: '16px', color: 'red' }}>
+                             {errorMsg}
+                        </div>
+                    )}
                     <div className={styles.uploadBox}>
                         <p style={{ fontWeight: 600, fontSize: '16px', marginBottom: '12px' }}>
                             전자 봉투 다운로드
