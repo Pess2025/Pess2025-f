@@ -24,10 +24,10 @@ export default function Decode() {
     }
 
     const formData = new FormData();
-    formData.append('privateKey', privateKeyFile); // 실제 File 객체 전달
+    formData.append('file', privateKeyFile); // 실제 File 객체 전달
 
     try {
-      await axios.post('http://localhost:8080/api/keys/decode/upload', formData);
+      await axios.post('api/keys/decode/upload', formData);
       alert("개인키 업로드 성공!");
       navigate(ROUTES.DECODE_READY); // 다음 단계로 이동
     } catch (error) {
@@ -36,12 +36,13 @@ export default function Decode() {
     }
   };
 
+
   const privateKeyDropRef = useRef();
 
   const handlePrivateKeyDrop = (e) => {
     e.preventDefault();
     const file = e.dataTransfer.files[0];
-    if (file) setPrivateKeyFile(file.name);
+    if (file) setPrivateKeyFile(file);
   };
 
   const handleDragOver = (e) => e.preventDefault();
@@ -103,13 +104,15 @@ export default function Decode() {
             className={styles.uploadBox_PrivateKey}
             onDrop={handlePrivateKeyDrop}
             onDragOver={handleDragOver}
-            onClick={() => privateKeyDropRef.current.querySelector('input').click()}
+            onClick={() => privateKeyInputRef.current?.click()}
             ref={privateKeyDropRef}
           >
             <p className={styles.uploadTitle}>개인 키 파일 업로드(.key)</p>
             <div className={styles.uploadArea}>
               {privateKeyFile ? (
-                <p className={styles.fileName}>선택된 파일: {privateKeyFile.name}</p>
+                <p className={styles.fileName}>
+                    선택된 파일: {typeof privateKeyFile === 'string' ? privateKeyFile : privateKeyFile.name}
+                </p>
               ) : (
                 <>
                   <p>파일을 드래그하거나 선택하세요.</p>
