@@ -30,7 +30,7 @@ export default function DecodeDo() {
               <div className={styles.stepRow}>
                 <div className={styles.stepItem}>
                     <span>1</span> 
-                        <div className={styles.text}>암호화 된 파일 업로드</div>
+                        <div className={styles.text}>개인 키 업로드</div>
                     </div>
                 </div>
             </li>

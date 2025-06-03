@@ -207,7 +207,14 @@ margin-top: 1px;
     font-weight: bold;
 }
 
-.primary{
+.buttons {
+  margin-top: 24px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.outline{
     width: 120px;
     display: flex;
     justify-content: center;
@@ -219,3 +226,13 @@ margin-top: 1px;
     border-radius: 6px;
     cursor: pointer;
 }
+
+.primary {
+  background-color: #4A86FF;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
