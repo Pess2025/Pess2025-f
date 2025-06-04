@@ -91,7 +91,7 @@ export default function Decode() {
                 <div className={styles.stepRow}>
                 <div className={styles.stepItem}>
                     <span>5</span>
-                    <div className={styles.text}>키 검색 및 원본 다운로드</div>
+                    <div className={styles.text}>키 검색</div>
                 </div>
                 </div>
             </li>

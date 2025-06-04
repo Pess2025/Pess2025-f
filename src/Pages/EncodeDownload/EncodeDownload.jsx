@@ -75,45 +75,40 @@ export default function EncodeDownload() {
                     </ul>
                 </aside>
 
-                <main className={styles.main}>
+                 <main className={styles.main}>
                     <h2>암호화</h2>
-                    <div className={styles.uploadBox}>
+                    <div className={styles.block}>
                         <p style={{ fontWeight: 600, fontSize: '16px', marginBottom: '12px' }}>
-                            암호화가 완료되었습니다. 아래 버튼을 눌러 암호문과 전자봉투를 다운로드 하세요.
+                            전자서명 및 암호화된 공개키 받기
                         </p>
-
-                        <div
-                            style={{
-                                border: '1px solid #e0e0e0',
-                                borderRadius: '12px',
-                                padding: '24px',
-                                backgroundColor: '#fafafa',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                gap: '12px'
-                            }}
-                        >
-                            <div style={{ marginTop: '16px', textAlign: 'center' }}>
-                                <button
-                                    className={styles.primary}
-                                    onClick={() =>
-                                        downloadFile('/api/encrypt/encrypted-file', 'encrypted_result.txt')
-                                    }
-                                >
-                                    암호문 다운로드
-                                </button>
-
-                                <button
-                                    className={styles.outlined}
-                                    onClick={() =>
-                                        downloadFile('/api/encrypt/envelope', 'envelope_signature.txt')
-                                    }
-                                >
-                                    전자봉투 다운로드
-                                </button>
-                            </div>
+                        <div className={styles.signatureSection}>
+                            <p className={styles.description}>
+                                서버에서 생성된 전자서명(대칭키를 공개키로 암호화)과, 대칭키로 암호화된 공개키 파일을 다운로드합니다.
+                            </p>
                         </div>
-
+                        <div className={styles.downloadButtons}>
+                            <button
+                                className={styles.primary}
+                                onClick={async () => {
+                                    try {
+                                        const response = await axios.get("/api/encrypt/download-bundle", {
+                                            responseType: "blob",
+                                        });
+                                        const blob = new Blob([response.data], { type: "application/octet-stream" });
+                                        const url = window.URL.createObjectURL(blob);
+                                        const a = document.createElement("a");
+                                        a.href = url;
+                                        a.download = "signed_key_package.zip";
+                                        document.body.appendChild(a);
+                                        a.click();
+                                        a.remove();
+                                        alert("전자서명 및 암호화 된 공개키 다운로드 완료");
+                                    } catch (e) {
+                                        alert("다운로드 실패: 서버에서 전자서명 파일을 생성하지 못했습니다.");
+                                    }
+                                }}
+                            >전자서명 및 암호화 된 공개 키 다운로드</button>
+                        </div>
                         <div className={styles.buttons}>
                             <button className={styles.primary_page} onClick={() => navigate(ROUTES.MAIN)}>
                                 완료

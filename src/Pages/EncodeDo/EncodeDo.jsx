@@ -8,7 +8,7 @@ import axios from "axios";
 import CryptoJS from 'crypto-js';
 
 export default function EncodeDo() {
-    console.log("🧪 EncodeDo 마운트");
+    console.log("EncodeDo 마운트");
     const [symmetricDone, setSymmetricDone] = useState(false);
 
     const navigate = useNavigate();
@@ -347,40 +347,6 @@ useEffect(() => {
                         </div>
                     )}
 
-                    <hr className={styles.divider} />
-
-                    <div className={styles.signatureSection}>
-                        <h3>전자서명 및 암호화된 공개키 받기</h3>
-                        <p className={styles.description}>
-                            서버에서 생성된 전자서명(대칭키를 공개키로 암호화)과, 대칭키로 암호화된 공개키 파일을 다운로드합니다.
-                        </p>
-
-                        <div className={styles.downloadButtons}>
-                            <button
-                                className={styles.primary}
-                                onClick={async () => {
-                                    try {
-                                        const response = await axios.get("/api/encrypt/download-bundle", {
-                                            responseType: "blob",
-                                        });
-                                        const blob = new Blob([response.data], { type: "application/octet-stream" });
-                                        const url = window.URL.createObjectURL(blob);
-                                        const a = document.createElement("a");
-                                        a.href = url;
-                                        a.download = "signed_key_package.zip";
-                                        document.body.appendChild(a);
-                                        a.click();
-                                        a.remove();
-                                        alert("전자서명 및 암호화된 공개키 다운로드 완료");
-                                    } catch (e) {
-                                        alert("다운로드 실패: 서버에서 전자서명 파일을 생성하지 못했습니다.");
-                                    }
-                                }}
-                            >
-                                전자서명 + 암호화된 공개키 다운로드
-                            </button>
-                        </div>
-                    </div>
                 </main>
             </div>
         </div>

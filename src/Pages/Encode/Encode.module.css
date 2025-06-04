@@ -159,6 +159,18 @@ margin-top: 1px;
   align-items: center;
   gap: 10px;
 }
+.noKeyGroup2Wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+.noKeyGroup2 {
+    margin-top:10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
 .noKeyText {
   margin: 0;

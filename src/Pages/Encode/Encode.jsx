@@ -234,7 +234,7 @@ export default function Encode() {
                     <div className={styles.headerRow}>
                         <h2>암호화</h2>
                         <div className={styles.noKeyGroup}>
-                            <p className={styles.noKeyText}>키가 없다면? →</p>
+                            <p className={styles.noKeyText}>개인 키가 없다면? →</p>
                             <button className={styles.keyButton} onClick={handlePrivateGenerateKey}>
                                 새로운 키 생성하기
                             </button>
@@ -271,12 +271,13 @@ export default function Encode() {
                         }}>취소
                         </button>
                     </div>
-
-                    <div className={styles.noKeyGroup}>
-                        <p className={styles.noKeyText}>키가 없다면? →</p>
-                        <button className={styles.keyButton} onClick={handlePublicGenerateKey}>
-                            새로운 키 생성하기
-                        </button>
+                    <div className={styles.noKeyGroup2Wrapper}>
+                        <div className={styles.noKeyGroup2}>
+                            <p className={styles.noKeyText}>공개 키가 없다면? →</p>
+                            <button className={styles.keyButton} onClick={handlePublicGenerateKey}>
+                                새로운 키 생성하기
+                            </button>
+                        </div>
                     </div>
 
                     <div

@@ -81,9 +81,9 @@ export default function Search() {
                         <div className={styles.stepItem}>
                             <span>5</span>
                             <div className={styles.textBlock}>
-                                <div className={styles.text}>키 검색 및 파일 다운로드</div>
+                                <div className={styles.text}>키 검색</div>
                                 <ul className={styles.subList}>
-                                        <li className={styles.active_mini}>· 비밀번호 검색 및 파일 다운로드</li>
+                                        <li className={styles.active_mini}>· 비밀번호 검색</li>
                                 </ul>
                             </div>
                         </div>
@@ -94,56 +94,33 @@ export default function Search() {
                 <main className={styles.main}>
                     <h2>복호화</h2>
                     <p style={{ fontWeight: 600, fontSize: '16px', marginBottom: '12px' }}>
-                        비밀번호 값은 해시 값으로 제공 됩니다. 서비스 명을 검색해주세요. (ex, Goole)
+                        비밀번호 값을 제공합니다. 서비스 명을 검색해주세요. (ex, Goole)
                     </p>
-                    <div className={styles.searchBoxWrapper} onClick={() => inputRef.current?.focus()}>
-                        <img src={searchInput} alt="Search Bar" className={styles.searchBarImg} />
-                        <img src={searchIcon} alt="Search Icon" className={styles.searchIconOverlay} />
-                        <input
-                            ref={inputRef}
-                            type="text"
-                            placeholder="검색어를 입력하세요"
-                            className={styles.searchInputOverlay}
-                        />
+                    <div className={styles.searchRow}>
+                        <div className={styles.searchBoxWrapper} onClick={() => inputRef.current?.focus()}>
+                            <img src={searchInput} alt="Search Bar" className={styles.searchBarImg} />
+                            <img src={searchIcon} alt="Search Icon" className={styles.searchIconOverlay} />
+                            <input
+                                ref={inputRef}
+                                type="text"
+                                placeholder="검색어를 입력하세요"
+                                className={styles.searchInputOverlay}
+                            />
+                        </div>
+                        <button className={styles.searchButton} onClick={handleSearch}>검색</button>
                     </div>
-                    <button className={styles.primary} onClick={handleSearch}>검색</button>
-                    {searchResult && (
-                        <div style={{ marginTop: '16px', fontWeight: 'bold' }}>
-                             {searchResult}
-                        </div>
-                    )}
-
-                    {errorMsg && (
-                        <div style={{ marginTop: '16px', color: 'red' }}>
-                             {errorMsg}
-                        </div>
-                    )}
                     <div className={styles.uploadBox}>
-                        <p style={{ fontWeight: 600, fontSize: '16px', marginBottom: '12px' }}>
-                            전자 봉투 다운로드
-                        </p>
-                        <div
-                            style={{
-                                border: '1px solid #e0e0e0',
-                                borderRadius: '12px',
-                                padding: '24px',
-                                backgroundColor: '#fafafa',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                gap: '12px',
-                                justifyContent: 'center', 
-                                alignItems: 'center'
-                            }}
-                        >
-                            
-                            <a
-                                href="/download/original-file"
-                                className={styles.outline}
-                                style={{ textDecoration: 'none' }}
-                            >
-                                다운로드
-                            </a>
-                        </div>
+                        {searchResult && (
+                            <div style={{ marginTop: '16px', fontWeight: 'bold' }}>
+                                 {searchResult}
+                            </div>
+                        )}
+
+                        {errorMsg && (
+                            <div style={{ marginTop: '16px', color: 'red' }}>
+                                 {errorMsg}
+                            </div>
+                        )}
                     </div>
                     <div className={styles.buttons}>
                       <button className={styles.primary} onClick={() => navigate(ROUTES.MAIN)}>종료</button>
