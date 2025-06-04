@@ -94,7 +94,7 @@ export default function Search() {
                 <main className={styles.main}>
                     <h2>복호화</h2>
                     <p style={{ fontWeight: 600, fontSize: '16px', marginBottom: '12px' }}>
-                        비밀번호 값을 제공합니다. 서비스 명을 검색해주세요. (ex, Goole)
+                        비밀번호 값을 제공합니다. 서비스 명을 검색해주세요. (ex, Google)
                     </p>
                     <div className={styles.searchRow}>
                         <div className={styles.searchBoxWrapper} onClick={() => inputRef.current?.focus()}>
