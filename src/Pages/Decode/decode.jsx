@@ -32,7 +32,7 @@ export default function Decode() {
       navigate(ROUTES.DECODE_READY); // 다음 단계로 이동
     } catch (error) {
       console.error(error);
-      alert("업로드 실패: " + error.message);
+      alert("업로드 실패: 암호화에 사용한 PrivateKey가 아닙니다.");
     }
   };
 
